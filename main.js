@@ -4,7 +4,7 @@ import {
   locationLens,
   movementProcessor
 } from "./movement.js";
-import { errorAction } from "./error.js";
+import { errorAction, errorSubscriber, errorLens } from "./error.js";
 
 const mainReducer = (state = {}, action) => {
   switch (action.type) {
@@ -12,7 +12,7 @@ const mainReducer = (state = {}, action) => {
       return movementReducer(action)(state);
       break;
     case "error":
-      return R.set(R.lensPath(["error"]), action.payload, state);
+      return R.set(errorLens, action.payload, state);
       break;
     default:
       return state;
@@ -26,8 +26,14 @@ const initalState = R.compose(
 
 const store = Redux.createStore(mainReducer, initalState);
 
-store.subscribe(action => {
-  console.log(action);
+const alertElement = document.getElementById("alert");
+alertElement.style["display"] = "none";
+alertElement.style["height"] = "50px";
+alertElement.style["text-align"] = "center";
+alertElement.style["color"] = "red";
+
+store.subscribe(() => errorSubscriber(alertElement)(store.getState()));
+store.subscribe(() => {
   console.log(store.getState());
 });
 
