@@ -37,9 +37,20 @@ A scene may have the following:
 * sound cues, tied to a passage (before, during or after)
 
 Scene {
-[Passage] passages
+[(Passage passage, Integer interval)]
 Location location
 Integer visitCount
 
 SoundCue soundCue?
+}
+
+# Interactions (passage)
+
+A passage is a piece of text that is displayed to the player.
+The piece of text should be available to be stylized.
+
+For stylizing text html elements can be included in.
+
+Passage {
+String message
 }
