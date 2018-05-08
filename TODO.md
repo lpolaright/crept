@@ -37,9 +37,9 @@ A scene may have the following:
 * sound cues, tied to a passage (before, during or after)
 
 Scene {
-[(Passage passage, Integer interval)]
+[(Passage passage, Integer interval)] Passages
 Location location
-Integer visitCount
+Function occureOn
 
 SoundCue soundCue?
 }
