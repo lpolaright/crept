@@ -1,4 +1,5 @@
 import { lenses as sceneLenses } from "./scenes.js";
+import { setAction } from "./set.js";
 
 export const currentSceneLens = R.lensPath(["currentScene"]);
 export const currentPassageLens = R.lensPath(["currentPassage"]);
@@ -24,6 +25,6 @@ export const sceneSubscriber = sceneElement => next => state => {
       passageDiv.appendChild(document.createTextNode(passageText));
       sceneElement.appendChild(passageDiv);
     }, passageInterval);
-    next({ type: "set", payload: [currentPassageLens, passageIndex + 1] });
+    next(setAction([currentPassageLens, passageIndex + 1]));
   }
 };
