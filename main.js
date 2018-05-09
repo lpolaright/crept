@@ -53,6 +53,7 @@ const sceneElement = document.getElementById("scene");
 store.subscribe(() =>
   errorSubscriber(alertElement)(store.dispatch)(store.getState())
 );
+sceneSubscriber(sceneElement)(store.dispatch)(store.getState());
 store.subscribe(() =>
   sceneSubscriber(sceneElement)(store.dispatch)(store.getState())
 );

@@ -22,9 +22,13 @@ export const sceneSubscriber = sceneElement => next => state => {
     )(scenePassages);
     setTimeout(() => {
       const passageDiv = document.createElement("div");
+      passageDiv.classList.add("fadeInBegin");
       passageDiv.appendChild(document.createTextNode(passageText));
       sceneElement.appendChild(passageDiv);
+      setTimeout(() => {
+        passageDiv.classList.add("fadeInEnd");
+      }, 0);
+      next(setAction([currentPassageLens, passageIndex + 1]));
     }, passageInterval);
-    next(setAction([currentPassageLens, passageIndex + 1]));
   }
 };
