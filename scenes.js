@@ -6,6 +6,7 @@ export const lenses = {
   passages: R.lensPath(["passages"]),
   location: R.lensPath(["location"]),
   occureOn: R.lensPath(["occureOn"]),
+  soundCue: R.lensPath(["soundCue"]),
   scenes: {
     hotelIncidnet: R.lensPath([0])
   }
@@ -15,7 +16,8 @@ const passages = [
   R.compose(
     R.set(lenses.id, 0),
     R.set(lenses.passage, `...it's a rainy morning.`),
-    R.set(lenses.passageInterval, 1000)
+    R.set(lenses.passageInterval, 1000),
+    R.set(lenses.soundCue, "street_rain.wav")
   )({}),
   R.compose(
     R.set(lenses.id, 1),

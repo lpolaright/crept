@@ -4,6 +4,12 @@ import { setAction } from "./set.js";
 export const currentSceneLens = R.lensPath(["currentScene"]);
 export const currentPassageLens = R.lensPath(["currentPassage"]);
 
+const playSound = file => {
+  const audio = document.createElement("audio");
+  audio.src = file;
+  audio.play();
+};
+
 export const sceneSubscriber = sceneElement => next => state => {
   const scenePassages = R.compose(
     R.view(sceneLenses.passages),
@@ -20,6 +26,10 @@ export const sceneSubscriber = sceneElement => next => state => {
       R.view(sceneLenses.passageInterval),
       R.view(R.lensPath([passageIndex]))
     )(scenePassages);
+    const passageSound = R.compose(
+      R.view(sceneLenses.soundCue),
+      R.view(R.lensPath([passageIndex]))
+    )(scenePassages);
     setTimeout(() => {
       const passageDiv = document.createElement("div");
       passageDiv.classList.add("fadeInBegin");
@@ -28,6 +38,7 @@ export const sceneSubscriber = sceneElement => next => state => {
       setTimeout(() => {
         passageDiv.classList.add("fadeInEnd");
       }, 0);
+      if (!R.isNil(passageSound)) playSound(passageSound);
       next(setAction([currentPassageLens, passageIndex + 1]));
     }, passageInterval);
   }
