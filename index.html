@@ -12,13 +12,34 @@
             font-size: 24px;
             font-weight: 600;
         }
+
+        #player-interaction-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #player-says {
+            width: 100%;
+            font-size: 24px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-top: 1px solid grey;
+            outline: none;
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div id="alert"></div>
-    <span>Type in a command!</span>
-    <input id="player-says" type="text" />
+    <div id="scene"></div>
+    <div id="player-interaction-bar">
+        <input id="player-says" placeholder="Type in a command!" type="text" />
+    </div>
     <script src="//cdn.jsdelivr.net/npm/ramda@0.25/dist/ramda.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/redux/4.0.0/redux.js"></script>
     <script src="main.js" type="module"></script>

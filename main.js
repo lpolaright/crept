@@ -1,4 +1,10 @@
 import locations, { lenses as locationLenses } from "./locations.js";
+import scenes, { lenses as sceneLenses } from "./scenes.js";
+import {
+  currentSceneLens,
+  currentPassageLens,
+  sceneSubscriber
+} from "./scene.js";
 import {
   movementReducer,
   locationLens,
@@ -14,6 +20,10 @@ const mainReducer = (state = {}, action) => {
     case "error":
       return R.set(errorLens, action.payload, state);
       break;
+    case "set":
+      const [lens, value] = action.payload;
+      return R.set(lens, value, state);
+      break;
     default:
       return state;
       break;
@@ -21,10 +31,16 @@ const mainReducer = (state = {}, action) => {
 };
 
 const initalState = R.compose(
-  R.set(locationLens, R.view(locationLenses.locations.street, locations))
+  R.set(locationLens, R.view(locationLenses.locations.street, locations)),
+  R.set(currentSceneLens, R.view(sceneLenses.scenes.hotelIncidnet, scenes)),
+  R.set(currentPassageLens, 0)
 )({});
 
-const store = Redux.createStore(mainReducer, initalState);
+const store = Redux.createStore(
+  mainReducer,
+  initalState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 const alertElement = document.getElementById("alert");
 alertElement.style["display"] = "none";
@@ -32,7 +48,14 @@ alertElement.style["height"] = "50px";
 alertElement.style["text-align"] = "center";
 alertElement.style["color"] = "red";
 
-store.subscribe(() => errorSubscriber(alertElement)(store.getState()));
+const sceneElement = document.getElementById("scene");
+
+store.subscribe(() =>
+  errorSubscriber(alertElement)(store.dispatch)(store.getState())
+);
+store.subscribe(() =>
+  sceneSubscriber(sceneElement)(store.dispatch)(store.getState())
+);
 store.subscribe(() => {
   console.log(store.getState());
 });
